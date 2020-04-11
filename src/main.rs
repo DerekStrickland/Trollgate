@@ -1,9 +1,5 @@
-extern crate rltk;
-use rltk::{Console, GameState, Rltk, RGB};
-extern crate specs;
+use rltk::{GameState, Point, Rltk, RGB};
 use specs::prelude::*;
-#[macro_use]
-extern crate specs_derive;
 mod components;
 pub use components::*;
 mod map;
@@ -52,7 +48,10 @@ impl GameState for State {
 
 fn main() {
     use rltk::RltkBuilder;
-    let context = RltkBuilder::simple80x50().with_title("Trollgate").build();
+    let context = RltkBuilder::simple80x50()
+        .with_title("Trollgate")
+        .build()
+        .unwrap();
 
     let mut gs = State { ecs: World::new() };
     gs.ecs.register::<Position>();
@@ -85,13 +84,21 @@ fn main() {
         .build();
 
     // Monster Stuff
+    let mut rng = rltk::RandomNumberGenerator::new();
     for room in map.rooms.iter().skip(1) {
         let (x, y) = room.center();
+
+        let glyph: rltk::FontCharType;
+        let roll = rng.roll_dice(1, 2);
+        match roll {
+            1 => glyph = rltk::to_cp437('g'),
+            _ => glyph = rltk::to_cp437('o'),
+        }
         gs.ecs
             .create_entity()
             .with(Position { x, y })
             .with(Renderable {
-                glyph: rltk::to_cp437('g'),
+                glyph: glyph,
                 fg: RGB::named(rltk::RED),
                 bg: RGB::named(rltk::BLACK),
             })

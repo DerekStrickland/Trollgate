@@ -1,6 +1,6 @@
 extern crate rltk;
-use super::{Player, Rect, Viewshed};
-use rltk::{Algorithm2D, BaseMap, Console, Point, RandomNumberGenerator, Rltk, RGB};
+use super::Rect;
+use rltk::{Algorithm2D, BaseMap, Point, RandomNumberGenerator, Rltk, RGB};
 use std::cmp::{max, min};
 extern crate specs;
 use specs::prelude::*;

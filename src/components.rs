@@ -1,5 +1,6 @@
 use rltk::RGB;
 use specs::prelude::*;
+use specs_derive::*;
 
 #[derive(Component)]
 pub struct Position {
@@ -9,7 +10,7 @@ pub struct Position {
 
 #[derive(Component)]
 pub struct Renderable {
-  pub glyph: u8,
+  pub glyph: u16,
   pub fg: RGB,
   pub bg: RGB,
 }
