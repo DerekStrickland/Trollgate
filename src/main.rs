@@ -1,4 +1,4 @@
-use rltk::{GameState, Point, Rltk, RGB};
+use rltk::{GameState, Rltk, RGB};
 use specs::prelude::*;
 mod components;
 pub use components::*;
@@ -46,12 +46,9 @@ impl GameState for State {
     }
 }
 
-fn main() {
+fn main() -> rltk::BError {
     use rltk::RltkBuilder;
-    let context = RltkBuilder::simple80x50()
-        .with_title("Trollgate")
-        .build()
-        .unwrap();
+    let context = RltkBuilder::simple80x50().with_title("Trollgate").build()?;
 
     let mut gs = State { ecs: World::new() };
     gs.ecs.register::<Position>();
@@ -92,7 +89,7 @@ fn main() {
         let roll = rng.roll_dice(1, 2);
         match roll {
             1 => glyph = rltk::to_cp437('g'),
-            _ => glyph = rltk::to_cp437('o'),
+            _ => glyph = rltk::to_cp437('t'),
         }
         gs.ecs
             .create_entity()
@@ -111,5 +108,5 @@ fn main() {
     }
 
     gs.ecs.insert(map);
-    rltk::main_loop(context, gs);
+    rltk::main_loop(context, gs)
 }
